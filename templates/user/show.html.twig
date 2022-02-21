@@ -38,27 +38,24 @@
 					{% for langhasuser in user.langhasuser %}
 						{% if loop.last %}
 							{{ langhasuser.name }}.
-							{% else %}
-                                {{ langhasuser.name }},
-						    {% endif %}
-					{% endfor %}
-					</td>
-				</td>
-			</tr>
-			<tr>
-				<th>Projects</th>
-				<td>
-					{% for project in user.projecthasuser %}
-						{{ project.name }}
+						{% else %}
+							{{ langhasuser.name }},
+						{% endif %}
 					{% endfor %}
 				</td>
 			</tr>
 		</tbody>
-	</table>
-
-	<a href="{{ path('user_index') }}">back to list</a>
-
-	<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-	{{ include('user/_delete_form.html.twig') }}
-{% endblock %}
+	</td>
+</tr>
+<tr>
+	<th>Projects</th>
+	<td>
+		{% for project in user.projecthasuser %}
+			{% if loop.last %}
+				{{ project.name }}.
+			{% else %}
+				{{ project.name }},
+			{% endif %}
+		{% endfor %}
+	</td>
+</tr></tbody></table><a href="{{ path('user_index') }}">back to list</a><a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>{{ include('user/_delete_form.html.twig') }}{% endblock %}
