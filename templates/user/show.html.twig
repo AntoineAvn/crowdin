@@ -31,6 +31,22 @@
                 <th>Description</th>
                 <td>{{ user.description }}</td>
             </tr>
+            	<tr>
+				<th>Lang has user</th>
+				<td>
+					{% for langhasuser in user.langhasuser %}
+						{{ langhasuser.name }},
+					{% endfor %}
+				</td>
+			</tr>
+			<tr>
+				<th>Projects</th>
+				<td>
+					{% for project in user.projecthasuser %}
+						{{ project.name }}
+					{% endfor %}
+				</td>
+			</tr>
         </tbody>
     </table>
 
