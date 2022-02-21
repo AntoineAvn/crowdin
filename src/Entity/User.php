@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +31,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
+
+    #[ORM\ManyToMany(targetEntity: lang::class, inversedBy: 'userhaslang')]
+    private $langhasuser;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class)]
+    private $projecthasuser;
+
+    public function __construct()
+    {
+        $this->langhasuser = new ArrayCollection();
+        $this->projecthasuser = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +134,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, lang>
+     */
+    public function getLanghasuser(): Collection
+    {
+        return $this->langhasuser;
+    }
+
+    public function addLanghasuser(lang $langhasuser): self
+    {
+        if (!$this->langhasuser->contains($langhasuser)) {
+            $this->langhasuser[] = $langhasuser;
+        }
+
+        return $this;
+    }
+
+    public function removeLanghasuser(lang $langhasuser): self
+    {
+        $this->langhasuser->removeElement($langhasuser);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjecthasuser(): Collection
+    {
+        return $this->projecthasuser;
+    }
+
+    public function addProjecthasuser(Project $projecthasuser): self
+    {
+        if (!$this->projecthasuser->contains($projecthasuser)) {
+            $this->projecthasuser[] = $projecthasuser;
+            $projecthasuser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjecthasuser(Project $projecthasuser): self
+    {
+        if ($this->projecthasuser->removeElement($projecthasuser)) {
+            // set the owning side to null (unless already changed)
+            if ($projecthasuser->getUser() === $this) {
+                $projecthasuser->setUser(null);
+            }
+        }
 
         return $this;
     }

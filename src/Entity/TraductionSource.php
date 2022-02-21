@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TraductionSourceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TraductionSourceRepository::class)]
@@ -15,6 +17,18 @@ class TraductionSource
 
     #[ORM\Column(type: 'text')]
     private $source;
+
+    #[ORM\ManyToOne(targetEntity: project::class, inversedBy: 'traductionSourceshasproject')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $project;
+
+    #[ORM\OneToMany(mappedBy: 'traduction_source', targetEntity: TraductionTarget::class, orphanRemoval: true)]
+    private $targethassource;
+
+    public function __construct()
+    {
+        $this->targethassource = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -29,6 +43,48 @@ class TraductionSource
     public function setSource(string $source): self
     {
         $this->source = $source;
+
+        return $this;
+    }
+
+    public function getProject(): ?project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TraductionTarget>
+     */
+    public function getTargethassource(): Collection
+    {
+        return $this->targethassource;
+    }
+
+    public function addTargethassource(TraductionTarget $targethassource): self
+    {
+        if (!$this->targethassource->contains($targethassource)) {
+            $this->targethassource[] = $targethassource;
+            $targethassource->setTraductionSource($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTargethassource(TraductionTarget $targethassource): self
+    {
+        if ($this->targethassource->removeElement($targethassource)) {
+            // set the owning side to null (unless already changed)
+            if ($targethassource->getTraductionSource() === $this) {
+                $targethassource->setTraductionSource(null);
+            }
+        }
 
         return $this;
     }
