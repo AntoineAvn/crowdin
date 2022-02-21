@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\ManyToMany(targetEntity: lang::class, inversedBy: 'userhaslang')]
+    #[ORM\ManyToMany(targetEntity: Lang::class, inversedBy: 'userhaslang')]
     private $langhasuser;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Project::class)]
@@ -141,14 +141,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, lang>
+     * @return Collection<int, Lang>
      */
     public function getLanghasuser(): Collection
     {
         return $this->langhasuser;
     }
 
-    public function addLanghasuser(lang $langhasuser): self
+    public function addLanghasuser(Lang $langhasuser): self
     {
         if (!$this->langhasuser->contains($langhasuser)) {
             $this->langhasuser[] = $langhasuser;
@@ -157,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeLanghasuser(lang $langhasuser): self
+    public function removeLanghasuser(Lang $langhasuser): self
     {
         $this->langhasuser->removeElement($langhasuser);
 
