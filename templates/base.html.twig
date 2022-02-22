@@ -30,9 +30,11 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('user_index') }}">User</a>
 						</li>
+						{% if (app.user) and (is_granted ('ROLE_TRADUCTOR')) %}
 						<li class="nav-item">
 							<a class="nav-link disabled">Traducteur</a>
 						</li>
+						{% endif %}
 					</ul>
 					<ul class="navbar-nav mb-2 mb-lg-0 ml-auto">
 						<li class="nav-item">
