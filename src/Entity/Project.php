@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Lang;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -27,18 +29,18 @@ class Project
     #[ORM\Column(type: 'datetime')]
     private $date_add;
 
-    #[ORM\ManyToOne(targetEntity: user::class, inversedBy: 'projecthasuser')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'projecthasuser')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: lang::class, inversedBy: 'projecthaslang')]
+    #[ORM\ManyToOne(targetEntity: Lang::class, inversedBy: 'projecthaslang')]
     #[ORM\JoinColumn(nullable: false)]
     private $lang;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: TraductionSource::class, orphanRemoval: true)]
     private $traductionSourceshasproject;
 
-    #[ORM\ManyToMany(targetEntity: lang::class)]
+    #[ORM\ManyToMany(targetEntity: Lang::class)]
     private $langtotranslate;
 
     public function __construct()
@@ -100,24 +102,24 @@ class Project
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getLang(): ?lang
+    public function getLang(): ?Lang
     {
         return $this->lang;
     }
 
-    public function setLang(?lang $lang): self
+    public function setLang(?Lang $lang): self
     {
         $this->lang = $lang;
 
@@ -155,14 +157,14 @@ class Project
     }
 
     /**
-     * @return Collection<int, lang>
+     * @return Collection<int, Lang>
      */
     public function getLangtotranslate(): Collection
     {
         return $this->langtotranslate;
     }
 
-    public function addLangtotranslate(lang $langtotranslate): self
+    public function addLangtotranslate(Lang $langtotranslate): self
     {
         if (!$this->langtotranslate->contains($langtotranslate)) {
             $this->langtotranslate[] = $langtotranslate;
@@ -171,7 +173,7 @@ class Project
         return $this;
     }
 
-    public function removeLangtotranslate(lang $langtotranslate): self
+    public function removeLangtotranslate(Lang $langtotranslate): self
     {
         $this->langtotranslate->removeElement($langtotranslate);
 
