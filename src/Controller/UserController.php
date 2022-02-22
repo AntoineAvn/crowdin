@@ -57,6 +57,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // condition to user who have select 2 or more lang has automaticaly the role traductor in dbb, but auto delete role if less than 2 lang
+            if (count($user->getLanghasuser()) >= 2) {
+                $user->setRoles(['ROLE_TRADUCTOR']);
+            }
+            else {
+                $user->setRoles([]);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
