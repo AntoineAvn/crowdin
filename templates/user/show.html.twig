@@ -18,7 +18,14 @@
 			</tr>
 			<tr>
 				<th>Roles</th>
-				<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+				{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
+                <td>
+                    {% if user.roles[0] == 'ROLE_TRADUCTOR' %}
+                        Traductor
+                        {% else %}
+                        No traductor
+                    {% endif %}
+                </td>
 			</tr>
 			<tr>
 				<th>Username</th>
