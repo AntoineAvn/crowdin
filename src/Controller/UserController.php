@@ -53,6 +53,14 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        // $userSession = $this->getUser()->getId();
+        // if($user->getId() != $userSession->getId() )
+        // {
+        //         // user can't edit another user
+        //         // $session->set("message", "Vous ne pouvez pas modifier cet utilisateur");
+        //         return $this->redirectToRoute('user_show');
+        // }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
