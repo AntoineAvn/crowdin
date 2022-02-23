@@ -9,23 +9,8 @@
 	<table class="table">
 		<tbody>
 			<tr>
-				<th>Id</th>
-				<td>{{ user.id }}</td>
-			</tr>
-			<tr>
 				<th>Email</th>
 				<td>{{ user.email }}</td>
-			</tr>
-			<tr>
-				<th>Roles</th>
-				{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-                <td>
-                    {% if user.roles[0] == 'ROLE_TRADUCTOR' %}
-                        Traductor
-                        {% else %}
-                        No traductor
-                    {% endif %}
-                </td>
 			</tr>
 			<tr>
 				<th>Username</th>
@@ -36,36 +21,43 @@
 				<td>{{ user.description }}</td>
 			</tr>
 			<tr>
+				<th>Roles</th>
+				{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
+				<td>
+					{% if user.roles[0] == 'ROLE_TRADUCTOR' %}
+						Traductor
+					{% else %}
+						No traductor
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
 				<th>Lang has user</th>
 				<td>
 					{% for langhasuser in user.langhasuser %}
 						{% if loop.last %}
 							{{ langhasuser.name }}.
 						{% else %}
-                            {{ langhasuser.name }},
+							{{ langhasuser.name }},
 						{% endif %}
 					{% endfor %}
-					</td>
 				</td>
 			</tr>
 			<tr>
 				<th>Projects</th>
 				<td>
 					{% for project in user.projecthasuser %}
-                        {% if loop.last %}
+						{% if loop.last %}
 							{{ project.name }}.
 						{% else %}
-                            {{ project.name }},
+							{{ project.name }},
 						{% endif %}
 					{% endfor %}
 				</td>
 			</tr>
 		</tbody>
 	</table>
-
 	<a href="{{ path('user_index') }}">back to list</a>
-
 	<a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
 	{{ include('user/_delete_form.html.twig') }}
 {% endblock %}
