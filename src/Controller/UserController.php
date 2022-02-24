@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\EditProfilType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -19,6 +20,44 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/profil', name: 'user_profil', methods: ['GET'])]
+    public function profil(UserRepository $userRepository): Response
+    {
+        return $this->render('user/profil.html.twig', [
+            'user' => $userRepository->find($this->getUser()),
+        ]);
+    }
+
+    #[Route('/profil/edit', name: 'user_edit_profil', methods: ['GET', 'POST'])]
+    public function editProfil(Request $request,UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->find($this->getUser());
+        $form = $this->createForm(EditProfilType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // condition to user who have select 2 or more lang has automaticaly the role traductor in dbb, but auto delete role if less than 2 lang
+            if (count($user->getLanghasuser()) >= 2) {
+                $user->setRoles(['ROLE_TRADUCTOR', 'ROLE_USER']);
+            }
+            else {
+                $user->setRoles(['ROLE_USER']);
+            }
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profil updated');
+
+            return $this->redirectToRoute('user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/edit_profil.html.twig', [
+            'form' => $form,
+            // 'user' => $user,
         ]);
     }
 
