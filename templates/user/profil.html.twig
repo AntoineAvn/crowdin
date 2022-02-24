@@ -14,31 +14,17 @@
 
 	<table class="table">
 		<tbody>
-			<tr>
+			{# <tr>
 				<th>Email</th>
 				<td>{{ user.email }}</td>
-			</tr>
+			</tr> #}
 			<tr>
 				<th>Username</th>
 				<td>{{ user.username }}</td>
 			</tr>
 			<tr>
-				<th>Description</th>
-				<td>{{ user.description }}</td>
-			</tr>
 			<tr>
-				<th>Roles</th>
-				{# <td>{{ user.roles ? user.roles|json_encode : '' }}</td> #}
-				<td>
-					{% if user.roles[0] == 'ROLE_TRADUCTOR' %}
-						Traductor
-					{% else %}
-						No traductor
-					{% endif %}
-				</td>
-			</tr>
-			<tr>
-				<th>Lang has user</th>
+				<th>Speak</th>
 				<td>
 					{% for langhasuser in user.langhasuser %}
 						{% if loop.last %}
@@ -50,20 +36,33 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Projects</th>
+				<th>Description</th>
+				<td>{{ user.description }}</td>
+			</tr>
+			{# <tr>
+				<th>Roles</th>
 				<td>
-					{% for project in user.projecthasuser %}
+					{% if user.roles[0] == 'ROLE_TRADUCTOR' %}
+						Traductor
+					{% else %}
+						No traductor
+					{% endif %}
+				</td>
+			</tr> #}
+				<th>Project(s) translated</th>
+				<td>
+					{# {% for project in user.projecthasuser %}
 						{% if loop.last %}
 							{{ project.name }}.
 						{% else %}
 							{{ project.name }},
 						{% endif %}
-					{% endfor %}
+					{% endfor %} #}
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	{# <a href="{{ path('user_index') }}">back to list</a> #}
-	<a href="{{ path('user_edit_profil') }}">edit</a>
+	<a href="{{ path('user_edit_profil') }}">Modify my information</a>
 	{# {{ include('user/_delete_form.html.twig') }} #}
 {% endblock %}

@@ -21,7 +21,8 @@ class EditProfilType extends AbstractType
                 'class' => Lang::class, //use to get class name
                 'choice_label' => 'name', //use to get name of lang
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
+                'label' => 'Speak'
             ])
         ;
     }
