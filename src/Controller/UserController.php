@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\EditProfilType;
+use App\Form\EditPasswordType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -58,6 +60,34 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit_profil.html.twig', [
             'form' => $form,
             // 'user' => $user,
+        ]);
+    }
+
+    #[Route('/profil/edit/password', name: 'user_edit_password', methods: ['GET', 'POST'])]
+    public function editPassword(Request $request,UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->find($this->getUser());
+        $form = $this->createForm(EditPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+             // encode the plain password
+             $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+            );
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Password updated');
+
+            return $this->redirectToRoute('user_profil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/edit_password.html.twig', [
+            'form' => $form,
         ]);
     }
 
