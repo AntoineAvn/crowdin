@@ -10,9 +10,9 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Block_sources</th>
-                <th>Is_deleted</th>
-                <th>Date_add</th>
+                <th>Language</th>
+                <th>Need to be translated in</th>
+                <th>Date</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,8 +21,18 @@
             <tr>
                 <td>{{ project.id }}</td>
                 <td>{{ project.name }}</td>
-                <td>{{ project.blockSources ? 'Yes' : 'No' }}</td>
-                <td>{{ project.isDeleted ? 'Yes' : 'No' }}</td>
+                <td>{{ project.lang }}</td>
+                {# <td>{{ project.blockSources ? 'Yes' : 'No' }}</td> #}
+                {# <td>{{ project.isDeleted ? 'Yes' : 'No' }}</td> #}
+                <td>
+                {% for lang in project.langtotranslate %}
+                    {% if loop.last %}
+                        {{lang}}.
+                    {% else %}
+                        {{lang}},
+                    {% endif %}   
+                {% endfor %}
+                </td>
                 <td>{{ project.dateAdd ? project.dateAdd|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
