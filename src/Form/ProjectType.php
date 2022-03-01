@@ -18,7 +18,7 @@ class ProjectType extends AbstractType
             ->add('block_sources')
             ->add('is_deleted')
             ->add('date_add')
-            // ->add('user')
+            ->add('user')
             ->add('lang')
             ->add('langtotranslate', EntityType::class, [
                 'class' => Lang::class, //use to get class name
