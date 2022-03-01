@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,12 +26,20 @@ class ProjectController extends AbstractController
     #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Get username of user connected
+        $user = $this->getUser();
+
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Default field (is_deleted: no, block_source: yes, dateTime)
+            $project->setIsDeleted(0)->setBlockSources(1)->setDateAdd(new \DateTime())->setUser($user);
+             //Username of user connected
             $entityManager->persist($project);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);
