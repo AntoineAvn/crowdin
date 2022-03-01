@@ -121,6 +121,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
+    // Register/edit Magic Method to Print the name of the user who created the project (in form edit and new)
+    public function __toString()
+    {
+        return $this->username;
+    }
+
     public function setUsername(string $username): self
     {
         $this->username = $username;
