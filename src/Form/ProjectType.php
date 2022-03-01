@@ -15,10 +15,6 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('block_sources')
-            ->add('is_deleted')
-            ->add('date_add')
-            ->add('user')
             ->add('lang')
             ->add('langtotranslate', EntityType::class, [
                 'class' => Lang::class, //use to get class name
@@ -27,6 +23,10 @@ class ProjectType extends AbstractType
                 'multiple' => true,
                 'label' => 'Need to be translate in:'
             ])
+            // ->add('block_sources')
+            // ->add('is_deleted')
+            // ->add('date_add')
+            // ->add('user')
         ;
     }
 
