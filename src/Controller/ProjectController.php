@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,11 +16,23 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/project')]
 class ProjectController extends AbstractController
 {
+    // #[Route('/', name: 'project_index', methods: ['GET'])]
+    // public function index(ProjectRepository $projectRepository): Response
+    // {
+    //     return $this->render('project/index.html.twig', [
+    //         'projects' => $projectRepository->findAll(),
+    //     ]);
+    // }
+
     #[Route('/', name: 'project_index', methods: ['GET'])]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository, UserRepository $userRepository): Response
     {
+        //Get id of user connected to get his projects
+        $user = $userRepository->find($this->getUser());
+        $userId = $user->getId();
+
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
+            'projects' => $projectRepository->findBy(array('user' => $userId)),
         ]);
     }
 
