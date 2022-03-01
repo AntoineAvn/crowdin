@@ -81,6 +81,8 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Project updated');
+
             return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);
         }
 

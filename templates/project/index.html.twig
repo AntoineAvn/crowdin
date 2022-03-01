@@ -5,6 +5,12 @@
 {% block body %}
     <h1>Project index</h1>
 
+    <div>
+		{% for message in app.flashes('success') %}
+			<div class="text-success">{{ message }}</div>
+		{% endfor %}
+	</div>
+
     <table class="table">
         <thead>
             <tr>
