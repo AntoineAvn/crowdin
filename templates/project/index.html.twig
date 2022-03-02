@@ -41,8 +41,10 @@
                 </td>
                 <td>{{ project.dateAdd ? project.dateAdd|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+                    {% if is_granted('project_view', project) %}
+                        <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
+                    {% endif %}
+                    {# <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a> #}
                 </td>
             </tr>
         {% else %}
