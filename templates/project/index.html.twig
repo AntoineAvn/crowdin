@@ -7,11 +7,13 @@
 
     <div>
 		{% for message in app.flashes('success') %}
-			<div class="text-success">{{ message }}</div>
+			<div class="text-success d-flex justify-content-center mt-5">{{ message }}</div>
 		{% endfor %}
 	</div>
 
-    <table class="table">
+        <a class="d-flex justify-content-center mt-5" href="{{ path('project_new') }}">Create new</a>
+
+    <table class="table mt-5">
         <thead>
             <tr>
                 <th>Id</th>
@@ -55,5 +57,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('project_new') }}">Create new</a>
 {% endblock %}
