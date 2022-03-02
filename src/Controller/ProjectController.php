@@ -67,6 +67,10 @@ class ProjectController extends AbstractController
     #[Route('/{id}', name: 'project_show', methods: ['GET'])]
     public function show(Project $project): Response
     {
+
+         //Only owner can show his project
+         $this->denyAccessUnlessGranted('project_view', $project);
+
         return $this->render('project/show.html.twig', [
             'project' => $project,
         ]);
@@ -75,6 +79,9 @@ class ProjectController extends AbstractController
     #[Route('/{id}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
+        //Only owner can edit his project
+        $this->denyAccessUnlessGranted('project_edit', $project);
+
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
