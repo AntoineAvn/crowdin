@@ -32,7 +32,9 @@
 
     <a href="{{ path('project_index') }}">back to list</a>
 
-    <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+    {% if is_granted('project_edit', project) %}
+        <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
+    {% endif %}
 
     {{ include('project/_delete_form.html.twig') }}
 {% endblock %}
