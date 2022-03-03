@@ -26,29 +26,31 @@
         </thead>
         <tbody>
         {% for project in projects %}
-            <tr>
-                <td>{{ project.id }}</td>
-                <td>{{ project.name }}</td>
-                <td>{{ project.lang }}</td>
-                {# <td>{{ project.blockSources ? 'Yes' : 'No' }}</td> #}
-                {# <td>{{ project.isDeleted ? 'Yes' : 'No' }}</td> #}
-                <td>
-                {% for lang in project.langtotranslate %}
-                    {% if loop.last %}
-                        {{lang}}.
-                    {% else %}
-                        {{lang}},
-                    {% endif %}   
-                {% endfor %}
-                </td>
-                <td>{{ project.dateAdd ? project.dateAdd|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    {% if is_granted('project_view', project) %}
-                        <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
-                    {% endif %}
-                    {# <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a> #}
-                </td>
-            </tr>
+            {% if project.isDeleted is same as(false) %}
+                <tr>
+                    <td>{{ project.id }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.lang }}</td>
+                    {# <td>{{ project.blockSources ? 'Yes' : 'No' }}</td> #}
+                    {# <td>{{ project.isDeleted ? 'Yes' : 'No' }}</td> #}
+                    <td>
+                    {% for lang in project.langtotranslate %}
+                        {% if loop.last %}
+                            {{lang}}.
+                        {% else %}
+                            {{lang}},
+                        {% endif %}   
+                    {% endfor %}
+                    </td>
+                    <td>{{ project.dateAdd ? project.dateAdd|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        {% if is_granted('project_view', project) %}
+                            <a href="{{ path('project_show', {'id': project.id}) }}">show</a>
+                        {% endif %}
+                        {# <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a> #}
+                    </td>
+                </tr>
+            {% endif %}
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
