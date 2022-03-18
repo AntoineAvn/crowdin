@@ -15,14 +15,14 @@
                 <th>Name</th>
                 <td>{{ project.name }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>Block_sources</th>
                 <td>{{ project.blockSources ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
+            </tr> #}
+            {# <tr>
                 <th>Is_deleted</th>
                 <td>{{ project.isDeleted ? 'Yes' : 'No' }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Date_add</th>
                 <td>{{ project.dateAdd ? project.dateAdd|date('Y-m-d H:i:s') : '' }}</td>
@@ -35,6 +35,8 @@
     {% if is_granted('project_edit', project) %}
         <a href="{{ path('project_edit', {'id': project.id}) }}">edit</a>
     {% endif %}
+
+    <a href="{{ path('traduction_source_byproject', {'id': project.id}) }}">Show sources</a>
 
     {{ include('project/_delete_form.html.twig') }}
 {% endblock %}
