@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TraductionSource index{% endblock %}
+
+{% block body %}
+    <h1>TraductionSource index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Source</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for traduction_source in traduction_sources %}
+            <tr>
+                <td>{{ traduction_source.id }}</td>
+                <td>{{ traduction_source.source }}</td>
+                <td>
+                    <a href="{{ path('traduction_source_show', {'id': traduction_source.id}) }}">show</a>
+                    <a href="{{ path('traduction_source_edit', {'id': traduction_source.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('traduction_source_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TraductionSource{% endblock %}
+
+{% block body %}
+    <h1>Create new TraductionSource</h1>
+
+    {{ include('traduction_source/_form.html.twig') }}
+
+    <a href="{{ path('traduction_source_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TraductionSource{% endblock %}
+
+{% block body %}
+    <h1>TraductionSource</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ traduction_source.id }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ traduction_source.source }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('traduction_source_index') }}">back to list</a>
+
+    <a href="{{ path('traduction_source_edit', {'id': traduction_source.id}) }}">edit</a>
+
+    {{ include('traduction_source/_delete_form.html.twig') }}
+{% endblock %}
