@@ -39,7 +39,7 @@ class ProjectController extends AbstractController
     #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Get username of user connected
+        // Get user object of the user connected
         $user = $this->getUser();
 
         $project = new Project();
@@ -48,11 +48,10 @@ class ProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Default field (is_deleted: no, block_source: yes, dateTime)
+            // Default field (is_deleted: no, block_source: yes, dateTime, user who create the project)
             $project->setIsDeleted(0)->setBlockSources(1)->setDateAdd(new \DateTime())->setUser($user);
-             //Username of user connected
-            $entityManager->persist($project);
 
+            $entityManager->persist($project);
             $entityManager->flush();
 
             return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);
