@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Project;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\TraductionSourceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TraductionSourceRepository::class)]
 class TraductionSource
@@ -18,7 +19,7 @@ class TraductionSource
     #[ORM\Column(type: 'text')]
     private $source;
 
-    #[ORM\ManyToOne(targetEntity: project::class, inversedBy: 'traductionSourceshasproject')]
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'traductionSourceshasproject')]
     #[ORM\JoinColumn(nullable: false)]
     private $project;
 
@@ -47,12 +48,12 @@ class TraductionSource
         return $this;
     }
 
-    public function getProject(): ?project
+    public function getProject(): ?Project
     {
         return $this->project;
     }
 
-    public function setProject(?project $project): self
+    public function setProject(?Project $project): self
     {
         $this->project = $project;
 
