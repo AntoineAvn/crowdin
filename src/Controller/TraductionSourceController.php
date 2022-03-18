@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TraductionSource;
 use App\Form\TraductionSourceType;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\TraductionSourceRepository;
@@ -27,17 +28,25 @@ class TraductionSourceController extends AbstractController
     {
         return $this->render('traduction_source/index.html.twig', [
             'traduction_sources' => $traductionSourceRepository->findBy(array('project' => $id)),
+            'projectId' => $id,
         ]);
     }
 
-    #[Route('/new', name: 'traduction_source_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/project/{id}/new', name: 'traduction_source_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager,ProjectRepository $projectRepository, int $id): Response
     {
+        //Get the project object which we want to add a source 
+        $project = $projectRepository->find($id);
+
         $traductionSource = new TraductionSource();
         $form = $this->createForm(TraductionSourceType::class, $traductionSource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Set the project of the source by default
+            $traductionSource->setProject($project);
+
             $entityManager->persist($traductionSource);
             $entityManager->flush();
 
