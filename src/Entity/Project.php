@@ -59,6 +59,12 @@ class Project
         return $this->name;
     }
 
+    // Register/edit Magic Method to Print the name of the project (in form edit and new)
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
