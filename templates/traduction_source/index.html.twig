@@ -10,7 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Source</th>
-                <th>actions</th>
+                {# <th>actions</th> #}
             </tr>
         </thead>
         <tbody>
@@ -18,10 +18,10 @@
             <tr>
                 <td>{{ traduction_source.id }}</td>
                 <td>{{ traduction_source.source }}</td>
-                <td>
+                {# <td>
                     <a href="{{ path('traduction_source_show', {'id': traduction_source.id}) }}">show</a>
                     <a href="{{ path('traduction_source_edit', {'id': traduction_source.id}) }}">edit</a>
-                </td>
+                </td> #}
             </tr>
         {% else %}
             <tr>
