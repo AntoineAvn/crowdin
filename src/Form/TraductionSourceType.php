@@ -13,7 +13,7 @@ class TraductionSourceType extends AbstractType
     {
         $builder
             ->add('source')
-            ->add('project')
+            // ->add('project')
         ;
     }
 
